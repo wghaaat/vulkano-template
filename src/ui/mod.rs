@@ -66,6 +66,12 @@ pub fn main_menu(ctx: &Context, option_selected: &mut MenuOption) {
                                 *option_selected = MenuOption::LoadLevel(2);
                             }
                             if ui
+                                .button(RichText::new("Load Brainrot").color(Color32::WHITE))
+                                .clicked()
+                            {
+                                *option_selected = MenuOption::LoadLevel(3);
+                            }
+                            if ui
                                 .button(RichText::new("Quit").color(Color32::WHITE))
                                 .clicked()
                             {

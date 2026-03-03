@@ -25,7 +25,7 @@ use crate::{
     },
     load_object_with_transform,
     physics::{quick_inverse, CuboidCollider, RigidBody},
-    prefabs::{init_phys_test, init_ui_test, init_world},
+    prefabs::{init_phys_test, init_ui_test, init_world, init_brainrot_test},
     render::{resource_manager::ResourceManager, DeferredRenderer, RenderLoop, RenderObject},
     shaders::{DirectionLight, GPUGlobalData, GPUAABB},
     ui::{self, MenuOption},
@@ -169,6 +169,7 @@ impl App {
             0 => init_world,
             1 => init_ui_test,
             2 => init_phys_test,
+            3 => init_brainrot_test,
             _ => {
                 return Err(format!("Tried to load invalid level id: {id}"));
             }

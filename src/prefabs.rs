@@ -8,7 +8,7 @@ use cgmath::{InnerSpace, Quaternion, Rad, Rotation3, Vector3};
 
 use crate::{
     game_objects::{
-        light::PointLightComponent, transform::TransformCreateInfo, MaterialSwapper, Rotate,
+        light::PointLightComponent, transform::TransformCreateInfo, MaterialSwapper, Rotate, Translate, 
         TransformTracker, WorldLoader,
     },
     load_object_with_transform,
@@ -296,3 +296,19 @@ pub fn init_phys_test(mut loader: WorldLoader) {
     let ro = loader.resources.load_ro(Cube, red_mat, true);
     load_object_with_transform!(loader.world.world, transform, collider, ro, rigidbody);
 }
+
+
+pub fn init_brainrot_test(mut loader: WorldLoader) {
+    loader.quick_ro(TransformCreateInfo::default().set_translation([-2.5, -2.5, -55.]).set_rotation(Quaternion::from_angle_y(Rad(PI))), Sixsevenkid, Texture(TextureID::Kid67), true);
+
+    let grey_mat = loader
+        .resources
+        .load_solid_material([0.5, 0.5, 0.5, 1.], true)
+        .0;
+    
+    
+
+    let ro = loader.resources.load_ro( RightHand, grey_mat, true);
+    let translate = Translate::new(3., [0., 0., 0.], [5., 5., 5.]);
+    loader.add_2_comp([0., 0., 0.], ro, translate);
+}   

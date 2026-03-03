@@ -3,13 +3,12 @@ use std::sync::{Arc, RwLock};
 use cgmath::{InnerSpace, Quaternion, Rotation, Rotation3, Vector3, Zero};
 
 use crate::{
-    physics::{ColliderSystem, LeafInHierachy, RigidBody},
-    LOGIC_PROFILER,
+    LOGIC_PROFILER, game_objects::transform, physics::{ColliderSystem, LeafInHierachy, RigidBody}
 };
 
 use super::{
     transform::{Transform, TransformID, TransformSystem},
-    Camera, Rotate, TransformTracker,
+    Camera, Rotate, Translate, TransformTracker,
 };
 use legion::*;
 
@@ -176,6 +175,28 @@ impl GameWorld {
                     * transform.get_local_transform().rotation,
             );
         }
+        
+        // Translate in straight line
+        // Translate (speed, startposition, endposition, direction)
+        // true is start to end, false is opposite
+        let mut query = <(&TransformID, &mut Translate)>::query();
+        for (transform_id, translate) in query.iter_mut(&mut self.world){
+            let transform  = self.transforms.get_transform_mut(transform_id).unwrap();
+            
+            if translate.direction && (transform.get_local_transform().translation - translate.end).dot(translate.end - translate.start) > 0. {
+                translate.direction = false;
+            }
+
+            if !translate.direction && (transform.get_local_transform().translation - translate.start).dot(translate.start - translate.end) > 0. {
+                translate.direction = true;
+            }
+
+            let movement =  if translate.direction { transform.get_local_transform().translation + (translate.end - translate.start).normalize() * translate.speed * self.last_delta_time}
+            else {transform.get_local_transform().translation - (translate.end - translate.start).normalize() * translate.speed * self.last_delta_time};
+            
+            transform.set_translation(movement);
+        }
+
 
         let mut query = <(&TransformID, &TransformTracker)>::query();
         for (transform_id, TransformTracker(tag)) in query.iter(&self.world) {

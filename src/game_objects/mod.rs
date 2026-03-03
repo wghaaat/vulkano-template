@@ -19,6 +19,19 @@ use self::transform::{TransformCreateInfo, TransformID};
 #[derive(Debug)]
 pub struct NameComponent(pub String);
 pub struct Rotate(pub Vector3<f32>, pub Rad<f32>);
+pub struct Translate {
+    pub speed: f32,
+    pub start: Vector3<f32>,
+    pub end: Vector3<f32>,
+    pub direction: bool
+}
+impl Translate { pub fn new (
+    speed: f32, 
+    start: impl Into <Vector3<f32>>, 
+    end: impl Into <Vector3<f32>>
+) -> Self {
+    Self {speed, start: start.into(), end: end.into(), direction: true} 
+} }
 
 // /// flag indicating if object was moved/modified this frame
 // pub struct PhysicsAwake(pub bool);

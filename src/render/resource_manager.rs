@@ -29,6 +29,9 @@ pub enum MeshID {
     /// Unit radius cube
     Cube,
     Suzanne,
+    Sixsevenkid,
+    RightHand,
+    LeftHand,
     InaBody,
     InaCloth,
     InaHair,
@@ -75,6 +78,7 @@ pub enum TextureID {
     InaHair,
     InaHead,
     LostEmpire,
+    Kid67,
 }
 
 /// Stores currently loaded resources of the renderer
@@ -225,6 +229,9 @@ impl<'a> ResourceRetriever<'a> {
                         let path = match id {
                             MeshID::Cube => "models/default_cube.obj",
                             MeshID::Suzanne => "models/suzanne.obj",
+                            MeshID::Sixsevenkid => "models/brain_rot/129875815698757.obj",
+                            MeshID::RightHand => "models/brain_rot/right_hand.obj",
+                            MeshID::LeftHand => "models/brain_rot/left_hand.obj",
                             MeshID::Engine => "models/engine.obj",
                             MeshID::Gun => "models/gun.obj",
                             _ => panic!("Unmatched mesh id"),
@@ -455,6 +462,7 @@ impl<'a> ResourceRetriever<'a> {
                     TextureID::InaHair => "models/ina/Hair_Base_Color.png",
                     TextureID::InaHead => "models/ina/Head_Base_Color.png",
                     TextureID::LostEmpire => "models/lost_empire-RGBA.png",
+                    TextureID::Kid67 => "models/brain_rot/129875815698757_Tex1.png",
                 };
                 let tex = load_texture(&context.allocators, &context.queue, Path::new(path));
                 loaded_resources.loaded_textures.insert(id, tex.clone());
